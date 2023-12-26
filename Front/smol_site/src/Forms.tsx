@@ -6,7 +6,7 @@ function Forms() {
         <div className='parent'>
             <div className='container'>
                 <form>
-                    <fieldset>
+                    <fieldset className='container'>
                         <legend>Please select your preferred contact method:</legend>
                         <div>
                             <input type="radio" id="contactChoice1" name="contact" value="email" />
@@ -21,7 +21,7 @@ function Forms() {
                     </fieldset>
                 </form>
                 <form>
-                    <fieldset>
+                    <fieldset className='container'>
                         <legend>Plis swelect yo fav contact metod:</legend>
                         <div>
                             <input type="radio" id="contactChoice4" name="contact" value="Emi" />
@@ -32,6 +32,14 @@ function Forms() {
 
                             <input type="radio" id="contactChoice6" name="contact" value="Mei" />
                             <label htmlFor="contactChoice6">Mei</label>
+                            <input type="radio" id="contactChoice7" name="contact" value="Stitch" />
+                            <label htmlFor="contactChoice7">Stitch</label>
+
+                            <input type="radio" id="contactChoice8" name="contact" value="kiti" />
+                            <label htmlFor="contactChoice8">I would be very grateful if you decided to contact me using my discord</label>
+
+                            <input type="radio" id="contactChoice9" name="contact" value="cuki" />
+                            <label htmlFor="contactChoice9">cuki</label>
                         </div>
                     </fieldset>
                 </form>
