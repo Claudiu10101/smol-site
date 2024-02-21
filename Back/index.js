@@ -41,41 +41,6 @@ let past_connections_reset = Date.now();
 let past_connections = {}
 let past_connections_count = 0;
 
-const anti_DoS = (req, res, next) => {
-	if (Date.now() - past_connections_reset > 60000) {
-		past_connections_reset = Date.now();
-		past_connections = {}
-		past_connections_count = 0;
-	}
-	if (req.headers['x-forwarded-for'] || req.socket.remoteAddress === process.env.VITE_SERVER_IP) {
-		next();
-	}
-	else {
-		const XFF = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-		if (past_connections[XFF] == undefined) {
-			past_connections[XFF] = 1;
-			past_connections_count += 1;
-			next();
-		}
-		else {
-			past_connections[XFF] += 1;
-			if (past_connections[XFF] > 10) {
-				if (past_connections[XFF] < 12)
-					console.log("Connection from " + XFF + " was blocked due to anti DoS")
-			}
-			else {
-				past_connections_count += 1;
-				if (past_connections_count > 5) {
-					if (past_connections_count < 7)
-						console.log("Too many connections, anti DDoS activated")
-				} else
-					next();
-			}
-		}
-	}
-}
-
-
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -85,7 +50,7 @@ const decryptMessage = (encryptedMessage, secretKey) => {
 	return decrypted;
 };
 
-app.post('/', [anti_DoS, check_whitelist], (req, res) => {
+app.post('/', [check_whitelist], (req, res) => {
 	const { message } = req.body;
 	const decrypted = decryptMessage(message, key)
 	const latency = Date.now() - parseInt(decrypted.split("\n")[0]);
